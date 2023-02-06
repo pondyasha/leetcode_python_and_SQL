@@ -1,1 +1,2 @@
-# leetcode_python_and_SQL
+Practice python and SQL questions from leetcode
+
