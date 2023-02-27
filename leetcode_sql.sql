@@ -109,4 +109,111 @@ where (a.next_day - a.first_day) = 1
 | fraction |
 | -------- |
 | 0.12     |
+----------------------------------------------------------------------------------------
+/*
+584. Find Customer Referee
+Table: Customer
+
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| id          | int     |
+| name        | varchar |
+| referee_id  | int     |
++-------------+---------+
+id is the primary key column for this table.
+Each row of this table indicates the id of a customer, their name, and the id of the customer who referred them.
+
+
+Write an SQL query to report the names of the customer that are not referred by the customer with id = 2.
+
+Return the result table in any order.
+
+
+Write your MySQL query statement below
+
+ */
+
+
+
+select a.name
+from (
+select name, ifnull(referee_id, 0) as referee_id
+from Customer) a
+where a.referee_id != 2
+
+--output
+| name |
+| ---- |
+| Will |
+| Jane |
+| Bill |
+| Zack |
+
+
+--------------------------------------------------------------------------------------------------------
+/*
+ 603. Consecutive Available Seats
+ Table: Cinema
+
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| seat_id     | int  |
+| free        | bool |
++-------------+------+
+seat_id is an auto-increment primary key column for this table.
+Each row of this table indicates whether the ith seat is free or not. 1 means free while 0 means occupied.
+
+
+Write an SQL query to report all the consecutive available seats in the cinema.
+
+Return the result table ordered by seat_id in ascending order.
+
+The test cases are generated so that more than two seats are consecutively available.
+
+The query result format is in the following example.
+
+
+ */
+-- Method 1
+select distinct c1.seat_id as seat_id
+from Cinema c1
+inner join Cinema c2
+where abs(c1.seat_id - c2.seat_id) = 1
+and c1.free = 1 and c2.free = 1
+order by 1 asc
+
+-- Method 2
+select seat_id
+from(
+
+select seat_id,
+free,
+lag(free) over (order by seat_id) as previous,
+lead(free) over (order by seat_id)  as next
+from Cinema
+) a
+where free and previous or free and next
+
+-- output
+
+| seat_id |
+| ------- |
+| 3       |
+| 4       |
+| 5       |
+
+---------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
 
