@@ -335,7 +335,30 @@ LEFT JOIN phone_info ph2 on ph2.caller_id = pc.receiver_id
 SELECT
 ROUND((SUM(CASE WHEN caller_country_id != receiver_country_id THEN 1 ELSE 0 END)*100.0/COUNT(1)),1) AS international_calls_pct
 FROM caller_info
-------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------
+/* 180. Consecutive Numbers
+   Write an SQL query to find all numbers that appear at least three times consecutively
+ */
+--approach 1
+SELECT DISTINCT a.current AS ConsecutiveNums
+FROM
+(
+SELECT
+num as current,
+LAG(num) OVER () AS previous,
+LEAD(num) OVER () AS next
+FROM logs
+) AS a
+WHERE current = previous and previous = next
+
+-- approach 2
+SELECT DISTINCT num as ConsecutiveNums
+FROM logs
+WHERE (id+1, num) IN (SELECT * FROM logs)
+AND (id+2,num) IN (SELECT * FROM logs)
+
+--------------------------------------------------------------------------------------
+
 
 
 
