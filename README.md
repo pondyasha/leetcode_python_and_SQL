@@ -1,6 +1,6 @@
 Here I practice python - easy and SQL (easy, medium and hard) questions from leetcode :) 
 
-Few importants learnings from solutions solved by others:
+Few importants learnings from Leetcode Advanced SQL 50:
 
 1. When a table contains two primary keys just like the following:
 
